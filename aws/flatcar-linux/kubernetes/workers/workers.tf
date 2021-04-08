@@ -25,6 +25,12 @@ resource "aws_autoscaling_group" "workers" {
   lifecycle {
     # override the default destroy and replace update behavior
     create_before_destroy = true
+
+    # ignore changes to capacity
+    ignore_changes = [
+      desired_capacity,
+      max_size,
+    ]
   }
 
   # Waiting for instance creation delays adding the ASG to state. If instances
