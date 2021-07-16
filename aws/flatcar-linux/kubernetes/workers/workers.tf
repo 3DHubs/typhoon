@@ -5,7 +5,7 @@ resource "aws_autoscaling_group" "workers" {
   # count
   desired_capacity          = var.worker_count
   min_size                  = var.worker_count
-  max_size                  = var.worker_count + 2
+  max_size                  = var.worker_count * 20
   default_cooldown          = 30
   health_check_grace_period = 30
 
@@ -25,6 +25,7 @@ resource "aws_autoscaling_group" "workers" {
   lifecycle {
     # override the default destroy and replace update behavior
     create_before_destroy = true
+    ignore_changes        = [desired_capacity]
   }
 
   # Waiting for instance creation delays adding the ASG to state. If instances
